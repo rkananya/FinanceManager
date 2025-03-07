@@ -80,33 +80,24 @@ Map<String, Double> expensesByCategory = expenseTracker.getExpenseData();
 System.out.println(expensesByCategory);
 
 
-### Example Code
+### Sample Output
+INITIAL SETUP:
+![Screenshot 2025-03-08 004233](https://github.com/user-attachments/assets/9dfa41a4-87fb-4a1c-847f-0c1020b0e76d)
+ADD INCOME AND TARGET SAVINGS
+![Screenshot 2025-03-08 004250](https://github.com/user-attachments/assets/59456027-7a3b-4ff4-8fef-114e6ee9968b)
+INCOME ADDED
+![Screenshot 2025-03-08 004301](https://github.com/user-attachments/assets/6d44ec66-4077-4204-89ec-a245db39dadb)
+ADD EXPENSE WITH CATEGORY
+![Screenshot 2025-03-08 004337](https://github.com/user-attachments/assets/2fe474bf-be54-4e4a-8a1a-2dff8d32d013)
+VIEW EXPENSE
+![Screenshot 2025-03-08 004348](https://github.com/user-attachments/assets/94ce49ae-c3f6-44f6-8cb5-576d2a269fba)
+SEE CHART OF ANALYSIS
+![Screenshot 2025-03-08 004357](https://github.com/user-attachments/assets/2d26fb84-21c9-481d-9061-816096665a30)
+GET WARNINGS 
+![Screenshot 2025-03-08 004523](https://github.com/user-attachments/assets/c229483d-afc7-4eb8-94b8-7fed75c79ea0)
+VARIOUS CATEGORIES:
+![Screenshot 2025-03-08 004536](https://github.com/user-attachments/assets/965ff90f-3ce5-4ad3-849e-02d57c49163d)
 
-public class Main {
-    public static void main(String[] args) {
-        // Set income
-        Expense.setIncome(5000.00);
-        
-        // Create a new expense tracker instance
-        Expense expenseTracker = new Expense();
-        
-        // Set savings target
-        expenseTracker.setTarget(1000.00);
-        
-        // Add expenses
-        expenseTracker.addExpense("Grocery shopping", "Food", 50.00);
-        expenseTracker.addExpense("Movie tickets", "Entertainment", 30.00);
-        
-        // View percentage saved
-        System.out.println("You have saved: " + expenseTracker.calculatePercentSaved() + "% of your income.");
-
-        // Add more expenses and check for alerts
-        expenseTracker.addExpense("New shoes", "Clothing", 400.00);
-        
-        // View expense breakdown by category
-        System.out.println("Expenses by category: " + expenseTracker.getExpenseData());
-    }
-}
 
 ## Future Features
 
@@ -122,6 +113,3 @@ Some possible features to add in the future:
 
 Feel free to contribute to this project by forking the repository, making changes, and submitting a pull request.
 
-## License
-
-This project is licensed under the MIT License.
