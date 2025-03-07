@@ -27,8 +27,8 @@ public class Main extends ApplicationFrame {
     private static JPanel incomePanel;
     private static JPanel expensePanel;
     private static JPanel tablePanel;
-    private static JPanel chartPanel;  // Panel for the chart
-    private static JFreeChart chart;   // Declare chart
+    private static JPanel chartPanel;  
+    private static JFreeChart chart;  
 
     public Main(String title) {
         super(title);
@@ -38,16 +38,15 @@ public class Main extends ApplicationFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Main frame = new Main("Expense Tracker");
-            frame.setSize(600, 700);  // Adjust size for better chart visibility
+            frame.setSize(600, 700); 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
             RefineryUtilities.centerFrameOnScreen(frame);
         });
     }
 
-    // Initialize the UI components
     private void initUI() {
-        // Panel for displaying balance and percent saved
+    
         JPanel statusPanel = new JPanel();
         statusPanel.setBackground(Color.LIGHT_GRAY);
         balanceLabel = new JLabel("Balance: $0.0");
@@ -56,7 +55,7 @@ public class Main extends ApplicationFrame {
         statusPanel.add(percentSavedLabel);
         add(statusPanel, BorderLayout.NORTH);
 
-        // Buttons for adding income and expenses
+      
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBackground(Color.GRAY);
@@ -69,11 +68,8 @@ public class Main extends ApplicationFrame {
         buttonPanel.add(showExpensesBtn);
         buttonPanel.add(showChartBtn);
         add(buttonPanel, BorderLayout.CENTER);
-
-        // CardLayout for toggling between views
         cardPanel = new JPanel(new CardLayout());
 
-        // Income input panel
         incomePanel = new JPanel(new GridLayout(3, 2));
         incomeField = new JTextField();
         targetSavingsField = new JTextField();
@@ -84,8 +80,6 @@ public class Main extends ApplicationFrame {
         incomePanel.add(targetSavingsField);
         incomePanel.add(confirmIncomeBtn);
         confirmIncomeBtn.addActionListener(e -> addIncome());
-
-        // Expense input panel
         expensePanel = new JPanel(new GridLayout(4, 2));
         expenseField = new JTextField();
         descriptionField = new JTextField();
@@ -101,7 +95,6 @@ public class Main extends ApplicationFrame {
         expensePanel.add(confirmExpenseBtn);
         confirmExpenseBtn.addActionListener(e -> addExpense());
 
-        // Expense table panel
         tablePanel = new JPanel(new BorderLayout());
         String[] columns = {"Date", "Category", "Description", "Amount"};
         tableModel = new DefaultTableModel(columns, 0);
@@ -109,25 +102,24 @@ public class Main extends ApplicationFrame {
         JScrollPane scrollPane = new JScrollPane(expenseTable);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Chart panel
         chartPanel = new JPanel(new BorderLayout());
-        updateChart(); // Initialize the chart
+        updateChart(); 
 
-        // Add all panels to cardPanel
+
         cardPanel.add(incomePanel, "Income");
         cardPanel.add(expensePanel, "Expense");
         cardPanel.add(tablePanel, "Table");
         cardPanel.add(chartPanel, "Chart");
         add(cardPanel, BorderLayout.SOUTH);
 
-        // Button Listeners for toggling views
+
         addIncomeBtn.addActionListener(e -> showIncomeFields());
         addExpenseBtn.addActionListener(e -> showExpenseFields());
         showExpensesBtn.addActionListener(e -> showExpenseTable());
         showChartBtn.addActionListener(e -> showChart());
     }
 
-    // Create a styled button
+
     private static JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(Color.WHITE);
@@ -136,19 +128,18 @@ public class Main extends ApplicationFrame {
         return button;
     }
 
-    // Show income input fields
     private static void showIncomeFields() {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "Income");
     }
 
-    // Show expense input fields
+
     private static void showExpenseFields() {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "Expense");
     }
 
-    // Add income
+
     private static void addIncome() {
         try {
             double income = Double.parseDouble(incomeField.getText());
@@ -173,46 +164,37 @@ public class Main extends ApplicationFrame {
                 JOptionPane.showMessageDialog(null, "Please add income first.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-    
-            // Add expense to tracker
             expenseTracker.addExpense(description, categoryComboBox.getSelectedItem().toString(), amountSpent);
-    
-            // Update the table and clear fields
+
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             tableModel.addRow(new Object[]{sdf.format(date), categoryComboBox.getSelectedItem(), description, "$" + amountSpent});
-    
-            // Update balance and percent after adding the expense
+ 
             updateBalanceAndPercent();
     
             descriptionField.setText("");
             expenseField.setText("");
-    
-            // Check if spending has reached 90% of the target savings
             double totalExpenses = expenseTracker.getTotalExpenses();
             double targetSavings = expenseTracker.getTarget();
     
             if (expenseTracker.isNearSpendingLimit()) {
                 JOptionPane.showMessageDialog(null, "Warning: You have reached 90% of your target savings!", "Warning", JOptionPane.WARNING_MESSAGE);
             }
-    
-            // Update the chart
+
             updateChart();
     
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please enter a valid expense amount.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Update balance and percent saved
+
     private static void updateBalanceAndPercent() {
         double balance = Expense.getIncome() - expenseTracker.getTotalExpenses();
         double percentSaved = expenseTracker.calculatePercentSaved();
-        balanceLabel.setText("Balance: $" + String.format("%.2f", balance)); // Format to 2 decimal places
-        percentSavedLabel.setText("Percent Saved: " + String.format("%.2f", percentSaved) + "%"); // Format to 2 decimal places
+        balanceLabel.setText("Balance: $" + String.format("%.2f", balance)); 
+        percentSavedLabel.setText("Percent Saved: " + String.format("%.2f", percentSaved) + "%");
     }
 
-    // Update the chart with the latest expense data
     private static void updateChart() {
         chartPanel.removeAll();
         JPanel newChartPanel = createDemoPanel();
@@ -220,20 +202,16 @@ public class Main extends ApplicationFrame {
         chartPanel.revalidate();
         chartPanel.repaint();
     }
-
-    // Show the chart panel
     private static void showChart() {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "Chart");
     }
 
-    // Show the expense table
     private static void showExpenseTable() {
         CardLayout cl = (CardLayout) cardPanel.getLayout();
         cl.show(cardPanel, "Table");
     }
 
-    // Method to create dataset (modify this according to your data structure)
     private static DefaultPieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         Map<String, Double> expenseData = expenseTracker.getExpenseData();
@@ -243,14 +221,12 @@ public class Main extends ApplicationFrame {
         return dataset;
     }
 
-    // Method to create the chart
     private static JFreeChart createChart(DefaultPieDataset dataset) {
         return ChartFactory.createPieChart(
             "Expenses by Category", dataset, true, true, false
         );
     }
 
-    // Method to create the panel that will contain the chart
     private static JPanel createDemoPanel() {
         JFreeChart chart = createChart(createDataset());
         return new ChartPanel(chart);
